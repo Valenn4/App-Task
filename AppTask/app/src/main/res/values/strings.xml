@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">App-Task</string>
+
+    <string name="task_hint">Task</string>
+    <string name="button_text">Add Task</string>
+    <string name="non_task">You don\'t have any homework.</string>
+</resources>
