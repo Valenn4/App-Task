@@ -4,4 +4,7 @@
     <string name="task_hint">Task</string>
     <string name="button_text">Add Task</string>
     <string name="non_task">You don\'t have any homework.</string>
+    <string name="button_delete_text">Delete All</string>
+
+    <string name="button_text_delete">🗑</string>
 </resources>

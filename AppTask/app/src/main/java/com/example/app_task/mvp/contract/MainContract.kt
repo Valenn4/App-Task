@@ -2,19 +2,24 @@ package com.example.app_task.mvp.contract
 
 interface MainContract {
     interface View {
-        fun createShared()
         fun conditionSharedPreferences(): Boolean
         fun loadRecycler()
-        fun InvisibleText()
+        fun invisibleText()
+        fun visibleText()
         fun addNewTask()
         fun setOnClickAddButton(function: () -> Unit)
+        fun setOnClickDeleteButton(function: () -> Unit)
         fun inization(function: () -> Unit)
+        fun onClickItemRecycler(position: Int)
+        fun allDeleteTask()
+        fun visibleAllDelete()
+        fun invisibleAllDelete()
     }
-
-    interface Model
 
     interface Presenter {
         fun inization()
         fun setOnClickAddButton()
+        fun onClickItemRecycler(position: Int)
+        fun setOnClickDeleteButton()
     }
 }
