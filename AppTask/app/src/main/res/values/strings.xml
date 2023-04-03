@@ -7,4 +7,5 @@
     <string name="button_delete_text">Delete All</string>
 
     <string name="button_text_delete">🗑</string>
+    <string name="hint_description">Enter a description</string>
 </resources>

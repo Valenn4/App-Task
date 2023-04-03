@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app_task.databinding.ActivityMainBinding
 import com.example.app_task.mvp.MyRecycler
 import com.example.app_task.mvp.contract.MainContract
+import java.io.File
+import java.io.FileOutputStream
 
 class MainView(activity: Activity): ActivityView(activity), MainContract.View {
     private val binding : ActivityMainBinding = ActivityMainBinding.inflate(activity.layoutInflater)
@@ -21,19 +23,25 @@ class MainView(activity: Activity): ActivityView(activity), MainContract.View {
         function()
     }
     override fun conditionSharedPreferences(): Boolean{
-        return sharedPreferences.getStringSet("listTask", mutableSetOf())!!.isEmpty()
+        return sharedPreferences.getString("listTask", "")!!.isEmpty()
     }
     override fun loadRecycler(){
         var recycler = binding.recycler
-        recycler.adapter = MyRecycler(sharedPreferences.getStringSet("listTask", mutableSetOf())!!.toMutableList(), activity)
+        var list: String = sharedPreferences.getString("listTask", "")!!
+        recycler.adapter = MyRecycler(list.split(",").reversed(), activity)
         recycler.layoutManager = LinearLayoutManager(activity)
     }
     override fun onClickItemRecycler(position: Int){
-        var listTask = sharedPreferences.getStringSet("listTask", mutableSetOf())?.toMutableList()
-        listTask?.remove(listTask?.get(position))
+        var listTask = sharedPreferences.getString("listTask", "")
+        var listConvert = listTask?.split(",")?.toMutableList()
+        listConvert?.remove(listConvert[position])
+
+        var stringBuilder = StringBuilder()
+        listConvert?.forEach { el -> stringBuilder.append("$el,") }
+        stringBuilder.substring(0,stringBuilder.length-1)
 
         val editor = sharedPreferences.edit()
-        editor?.putStringSet("listTask", listTask?.toMutableSet())
+        editor?.putString("listTask", stringBuilder.toString())
         editor?.apply()
     }
     override fun invisibleText(){
@@ -42,11 +50,18 @@ class MainView(activity: Activity): ActivityView(activity), MainContract.View {
     override fun visibleText(){
         binding.textView.visibility = View.VISIBLE
     }
-    override fun addNewTask(){
-        var list : MutableList<String> = sharedPreferences.getStringSet("listTask", mutableSetOf())!!.toMutableList()
-        list.add(binding.editTextTextPersonName.text.toString())
+    override fun addFirstNewTask(){
         val editor = sharedPreferences.edit()
-        editor?.putStringSet("listTask", list.toMutableSet())
+        editor?.putString("listTask", binding.editTextTextPersonName.text.toString())
+        editor?.putString("descriptionsTasks", "Sin descripcion")
+        editor?.apply()
+    }
+    override fun addNewTask(){
+        var list : String = sharedPreferences.getString("listTask", "")!!
+        list += ","+binding.editTextTextPersonName.text.toString()
+        val editor = sharedPreferences.edit()
+        editor?.putString("listTask", list)
+        editor?.putString("descriptionsTasks", "Sin descripcion,")
         editor?.apply()
     }
     override fun allDeleteTask(){

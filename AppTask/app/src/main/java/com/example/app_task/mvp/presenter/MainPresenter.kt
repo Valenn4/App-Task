@@ -14,25 +14,28 @@ class MainPresenter(private var view: MainContract.View): MainContract.Presenter
         if(!view.conditionSharedPreferences()){
             view.invisibleText()
             view.loadRecycler()
+            view.visibleAllDelete()
         }
     }
 
     override fun setOnClickAddButton(){
         if(view.conditionSharedPreferences()){
             view.visibleAllDelete()
+            view.addFirstNewTask()
+        } else {
+            view.addNewTask()
         }
-        view.addNewTask()
         view.loadRecycler()
         view.invisibleText()
     }
     override fun onClickItemRecycler(position: Int){
-        view.onClickItemRecycler(position)
+        /*view.onClickItemRecycler(position)
         view.loadRecycler()
         if (view.conditionSharedPreferences()){
             view.visibleText()
-        }
+            view.invisibleAllDelete()
+        }*/
     }
-
     override fun setOnClickDeleteButton(){
         view.invisibleAllDelete()
         view.allDeleteTask()

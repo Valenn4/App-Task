@@ -6,6 +6,7 @@ interface MainContract {
         fun loadRecycler()
         fun invisibleText()
         fun visibleText()
+        fun addFirstNewTask()
         fun addNewTask()
         fun setOnClickAddButton(function: () -> Unit)
         fun setOnClickDeleteButton(function: () -> Unit)
