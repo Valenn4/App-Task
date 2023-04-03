@@ -52,6 +52,29 @@ class TaskView(private var activity: Activity): TaskContract.View {
         binding.textDescription.text = sharedPreferences.getString("descriptionsTasks", "")?.split(",")?.get(activity.intent.getIntExtra("task_id", -10)).toString()
         binding.inputDescription.setText(sharedPreferences.getString("descriptionsTasks", "")?.split(",")?.get(activity.intent.getIntExtra("task_id", -10)).toString())
     }
+    override fun descriptionIsNull(): Boolean{
+        return binding.textDescription.text.equals("Sin descripcion")
+    }
+    override fun descriptionIsBlank(): Boolean{
+        return binding.inputDescription.text.isBlank()
+    }
+    override fun setValueDefaultDescription(){
+        binding.textDescription.text = "Sin descripcion"
+        var listDescription = sharedPreferences.getString("descriptionsTasks", "")
+        var listConvert = listDescription?.split(",")?.toMutableList()
+        listConvert?.set(activity.intent.getIntExtra("task_id", -10), "Sin descripcion")
+
+        var stringBuilder = StringBuilder()
+        listConvert?.forEach { el -> stringBuilder.append("$el,") }
+        stringBuilder.substring(0,stringBuilder.length-1)
+
+        val editor = sharedPreferences.edit()
+        editor?.putString("descriptionsTasks", stringBuilder.toString())
+        editor?.apply()
+    }
+    override fun cleanInput(){
+        binding.inputDescription.text.clear()
+    }
     override fun showDescription(){
         var listDescription = sharedPreferences.getString("descriptionsTasks", "")
         var listConvert = listDescription?.split(",")?.toMutableList()

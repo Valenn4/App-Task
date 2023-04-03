@@ -6,7 +6,6 @@ class TaskPresenter(private var view: TaskContract.View): TaskContract.Presenter
     init {
         view.inputFocus()
         view.setTitle()
-
         view.setOnClickTextDescription { setOnClickTextDescription() }
         view.setOnClickSaveButton { setOnClickSaveButton() }
     }
@@ -14,11 +13,17 @@ class TaskPresenter(private var view: TaskContract.View): TaskContract.Presenter
     override fun setOnClickTextDescription(){
         view.invisibleTextAndVisibleInput()
         view.setFocusInput()
+        if(view.descriptionIsNull()){
+            view.cleanInput()
+        }
     }
     override fun setOnClickSaveButton() {
         view.clearFocus()
         view.saveDescriptionText()
         view.showDescription()
         view.visibleTextAndInvisibleInput()
+        if(view.descriptionIsBlank()){
+            view.setValueDefaultDescription()
+        }
     }
 }

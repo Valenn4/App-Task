@@ -3,10 +3,14 @@ package com.example.app_task.mvp.contract
 interface TaskContract {
 
     interface View {
-        fun setTitle()
         fun clearFocus()
         fun inputFocus()
         fun setFocusInput()
+        fun setTitle()
+        fun descriptionIsNull(): Boolean
+        fun descriptionIsBlank(): Boolean
+        fun setValueDefaultDescription()
+        fun cleanInput()
         fun showDescription()
         fun saveDescriptionText()
         fun setOnClickSaveButton(function: () -> Unit)
