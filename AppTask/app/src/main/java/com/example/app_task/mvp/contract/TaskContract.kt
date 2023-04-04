@@ -11,6 +11,7 @@ interface TaskContract {
         fun descriptionIsBlank(): Boolean
         fun setValueDefaultDescription()
         fun cleanInput()
+        fun openKeyboard()
         fun showDescription()
         fun saveDescriptionText()
         fun setOnClickSaveButton(function: () -> Unit)

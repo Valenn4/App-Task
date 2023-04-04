@@ -24,10 +24,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:text="Save"
         android:padding="10dp"
+        android:text="Save"
         android:visibility="invisible"
-        app:layout_constraintEnd_toStartOf="@+id/buttonDeleteTask"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleTask"
         app:srcCompat="@android:drawable/checkbox_on_background" />
 
@@ -50,7 +50,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="top"
-        android:inputType="text"
         android:padding="20dp"
         android:textSize="20sp"
         android:visibility="invisible"

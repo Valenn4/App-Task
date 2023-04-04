@@ -37,6 +37,10 @@ class TaskView(private var activity: Activity): TaskContract.View {
     override fun setFocusInput(){
         binding.inputDescription.requestFocus(0)
     }
+    override fun openKeyboard(){
+        val imm : InputMethodManager = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(binding.inputDescription, InputMethodManager.SHOW_IMPLICIT)
+    }
     override fun setOnClickTextDescription(function: () -> Unit){
         binding.textDescription.setOnClickListener { function() }
     }

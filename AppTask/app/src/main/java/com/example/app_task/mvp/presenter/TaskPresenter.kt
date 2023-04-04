@@ -14,6 +14,7 @@ class TaskPresenter(private var view: TaskContract.View): TaskContract.Presenter
     override fun setOnClickTextDescription(){
         view.invisibleTextAndVisibleInput()
         view.setFocusInput()
+        view.openKeyboard()
         if(view.descriptionIsNull()){
             view.cleanInput()
         }
