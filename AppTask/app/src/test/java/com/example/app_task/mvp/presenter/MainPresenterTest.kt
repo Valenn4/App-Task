@@ -35,7 +35,7 @@ internal class MainPresenterTest {
 
     @Test
     fun setOnClickAddButton() {
-        every { view.clickDeleteButton { any() } } just Runs
+        every { view.setOnClickDeleteButton { any() } } just Runs
         presenter.setOnClickAddButton()
         verify { view.invisibleText() }
         verify { view.loadRecycler() }
@@ -45,7 +45,7 @@ internal class MainPresenterTest {
     @Test
     fun onClickItemRecycler() {
         every { view.conditionSharedPreferences() } returns true
-        every { view.onClickItemRecycler(1) } just Runs
+        every { view.deleteTask(1) } just Runs
         presenter.clickDeleteButton(1)
         verify { view.loadRecycler() }
         verify { view.visibleText() }

@@ -33,7 +33,7 @@ class MainView(activity: Activity): ActivityView(activity), MainContract.View {
         recycler.adapter = MyRecycler(list.split(","), activity)
         recycler.layoutManager = LinearLayoutManager(activity)
     }
-    override fun onClickItemRecycler(position: Int){
+    override fun deleteTask(position: Int){
         var listTask = sharedPreferences.getString("listTask", "")
         var listConvert = listTask?.split(",")?.toMutableList()
         listConvert?.remove(listConvert[position])
@@ -98,7 +98,7 @@ class MainView(activity: Activity): ActivityView(activity), MainContract.View {
         val imm : InputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
-    override fun clickDeleteButton(function: () -> Unit){
+    override fun setOnClickDeleteButton(function: () -> Unit){
         binding.buttonAddTask.setOnClickListener { function() }
     }
 }
