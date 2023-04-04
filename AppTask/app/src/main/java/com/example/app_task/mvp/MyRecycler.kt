@@ -1,18 +1,14 @@
 package com.example.app_task.mvp
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_task.R
 import com.example.app_task.TaskActivity
-import com.example.app_task.mvp.contract.MainContract
 import com.example.app_task.mvp.presenter.MainPresenter
 import com.example.app_task.mvp.view.MainView
 
@@ -38,7 +34,7 @@ class MyRecycler(private var list: List<String>, private var activity: Activity?
         holder.buttonDelete.id = position
         holder.buttonDelete.setOnClickListener {
             val presenter = MainPresenter(MainView(activity!!))
-            presenter.onClickItemRecycler(position)
+            presenter.clickDeleteButton(position)
         }
         holder.itemView.setOnClickListener {
             val intent : Intent = Intent(activity, TaskActivity::class.java)

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.app_task.R
@@ -80,6 +81,9 @@ class MainView(activity: Activity): ActivityView(activity), MainContract.View {
         editor?.apply()
         binding.editTextTextPersonName.text.clear()
         binding.editTextTextPersonName.clearFocus()
+        val view = activity?.currentFocus
+        val imm : InputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
     override fun addNewTask(){
         var list : String = sharedPreferences.getString("listTask", "")!!
@@ -90,20 +94,11 @@ class MainView(activity: Activity): ActivityView(activity), MainContract.View {
         editor?.apply()
         binding.editTextTextPersonName.text.clear()
         binding.editTextTextPersonName.clearFocus()
+        val view = activity?.currentFocus
+        val imm : InputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
-    override fun allDeleteTask(){
-        sharedPreferences.edit().clear().apply()
-    }
-    override fun visibleAllDelete(){
-        binding.allDelete.visibility = View.VISIBLE
-    }
-    override fun invisibleAllDelete(){
-        binding.allDelete.visibility = View.INVISIBLE
-    }
-    override fun setOnClickAddButton(function: () -> Unit){
+    override fun clickDeleteButton(function: () -> Unit){
         binding.buttonAddTask.setOnClickListener { function() }
-    }
-    override fun setOnClickAllDeleteButton(function: () -> Unit){
-        binding.allDelete.setOnClickListener { function() }
     }
 }
