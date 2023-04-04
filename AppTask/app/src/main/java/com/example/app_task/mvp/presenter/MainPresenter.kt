@@ -7,7 +7,7 @@ class MainPresenter(private var view: MainContract.View): MainContract.Presenter
     init {
         view.inization { inization() }
         view.setOnClickAddButton { setOnClickAddButton() }
-        view.setOnClickDeleteButton { setOnClickDeleteButton() }
+        view.setOnClickAllDeleteButton { setOnClickDeleteButton() }
     }
 
     override fun inization(){
@@ -29,12 +29,13 @@ class MainPresenter(private var view: MainContract.View): MainContract.Presenter
         view.invisibleText()
     }
     override fun onClickItemRecycler(position: Int){
-        /*view.onClickItemRecycler(position)
+        view.onClickItemRecycler(position)
         view.loadRecycler()
-        if (view.conditionSharedPreferences()){
+        if (view.conditionSharedPreferences()) {
             view.visibleText()
             view.invisibleAllDelete()
-        }*/
+            view.invisibleRecycler()
+        }
     }
     override fun setOnClickDeleteButton(){
         view.invisibleAllDelete()

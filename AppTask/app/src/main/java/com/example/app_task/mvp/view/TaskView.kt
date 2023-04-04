@@ -2,9 +2,11 @@ package com.example.app_task.mvp.view
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import com.example.app_task.MainActivity
 import com.example.app_task.databinding.ActivityTaskBinding
 import com.example.app_task.mvp.contract.TaskContract
 
@@ -49,8 +51,8 @@ class TaskView(private var activity: Activity): TaskContract.View {
 
     override fun setTitle(){
         binding.titleTask.text = activity.intent.getStringExtra("task_name")
-        binding.textDescription.text = sharedPreferences.getString("descriptionsTasks", "")?.split(",")?.get(activity.intent.getIntExtra("task_id", -10)).toString()
-        binding.inputDescription.setText(sharedPreferences.getString("descriptionsTasks", "")?.split(",")?.get(activity.intent.getIntExtra("task_id", -10)).toString())
+        binding.textDescription.text = sharedPreferences.getString("descriptionsTasks", "")?.split(",")?.get(activity.intent.getStringExtra("task_id")!!.toInt())
+        binding.inputDescription.setText(sharedPreferences.getString("descriptionsTasks", "")?.split(",")?.get(activity.intent.getStringExtra("task_id")!!.toInt()))
     }
     override fun descriptionIsNull(): Boolean{
         return binding.textDescription.text.equals("Sin descripcion")
@@ -62,7 +64,7 @@ class TaskView(private var activity: Activity): TaskContract.View {
         binding.textDescription.text = "Sin descripcion"
         var listDescription = sharedPreferences.getString("descriptionsTasks", "")
         var listConvert = listDescription?.split(",")?.toMutableList()
-        listConvert?.set(activity.intent.getIntExtra("task_id", -10), "Sin descripcion")
+        listConvert?.set(activity.intent.getStringExtra("task_id")!!.toInt(), "Sin descripcion")
 
         var stringBuilder = StringBuilder()
         listConvert?.forEach { el -> stringBuilder.append("$el,") }
@@ -78,12 +80,12 @@ class TaskView(private var activity: Activity): TaskContract.View {
     override fun showDescription(){
         var listDescription = sharedPreferences.getString("descriptionsTasks", "")
         var listConvert = listDescription?.split(",")?.toMutableList()
-        binding.textDescription.setText(listConvert?.get(activity.intent.getIntExtra("task_id", -10)))
+        binding.textDescription.setText(listConvert?.get(activity.intent.getStringExtra("task_id")!!.toInt()))
     }
     override fun saveDescriptionText(){
         var listDescription = sharedPreferences.getString("descriptionsTasks", "")
         var listConvert = listDescription?.split(",")?.toMutableList()
-        listConvert?.set(activity.intent.getIntExtra("task_id", -10), binding.inputDescription.text.toString())
+        listConvert?.set(activity.intent.getStringExtra("task_id")!!.toInt(), binding.inputDescription.text.toString())
 
         var stringBuilder = StringBuilder()
         listConvert?.forEach { el -> stringBuilder.append("$el,") }
@@ -96,4 +98,5 @@ class TaskView(private var activity: Activity): TaskContract.View {
     override fun setOnClickSaveButton(function: () -> Unit){
         binding.buttonSaveDescription.setOnClickListener { function() }
     }
+
 }

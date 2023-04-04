@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,7 @@ class MyRecycler(private var list: List<String>, private var activity: Activity?
 
     inner class MyHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val textView : TextView = itemView.findViewById(R.id.task)
+        val buttonDelete: ImageButton = itemView.findViewById(R.id.buttonDeleteTask)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyHolder {
@@ -33,14 +35,17 @@ class MyRecycler(private var list: List<String>, private var activity: Activity?
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
         var item = list[position]
         holder.textView.text = item
+        holder.buttonDelete.id = position
+        holder.buttonDelete.setOnClickListener {
+            val presenter = MainPresenter(MainView(activity!!))
+            presenter.onClickItemRecycler(position)
+        }
         holder.itemView.setOnClickListener {
             val intent : Intent = Intent(activity, TaskActivity::class.java)
             intent.putExtra("task_name", item)
-            intent.putExtra("task_id", position)
+            intent.putExtra("task_id", position.toString())
             activity?.startActivity(intent)
         }
-
-
     }
 
 }

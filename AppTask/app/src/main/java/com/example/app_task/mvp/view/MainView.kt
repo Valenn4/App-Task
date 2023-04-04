@@ -6,11 +6,10 @@ import android.content.SharedPreferences
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.app_task.R
 import com.example.app_task.databinding.ActivityMainBinding
 import com.example.app_task.mvp.MyRecycler
 import com.example.app_task.mvp.contract.MainContract
-import java.io.File
-import java.io.FileOutputStream
 
 class MainView(activity: Activity): ActivityView(activity), MainContract.View {
     private val binding : ActivityMainBinding = ActivityMainBinding.inflate(activity.layoutInflater)
@@ -28,22 +27,45 @@ class MainView(activity: Activity): ActivityView(activity), MainContract.View {
     }
     override fun loadRecycler(){
         var recycler = binding.recycler
+        recycler.visibility = View.VISIBLE
         var list: String = sharedPreferences.getString("listTask", "")!!
-        recycler.adapter = MyRecycler(list.split(",").reversed(), activity)
+        recycler.adapter = MyRecycler(list.split(","), activity)
         recycler.layoutManager = LinearLayoutManager(activity)
     }
     override fun onClickItemRecycler(position: Int){
         var listTask = sharedPreferences.getString("listTask", "")
         var listConvert = listTask?.split(",")?.toMutableList()
         listConvert?.remove(listConvert[position])
-
         var stringBuilder = StringBuilder()
-        listConvert?.forEach { el -> stringBuilder.append("$el,") }
-        stringBuilder.substring(0,stringBuilder.length-1)
-
+        listConvert?.forEach {
+                el -> if(el == listConvert[listConvert.size-1]){
+                        stringBuilder.append(el)
+                } else {
+                    stringBuilder.append("$el,")
+                }
+        }
         val editor = sharedPreferences.edit()
         editor?.putString("listTask", stringBuilder.toString())
         editor?.apply()
+
+        var listDescription = sharedPreferences.getString("descriptionsTasks", "")
+        var listConvertDescriptions = listDescription?.split(",")?.toMutableList()
+        listConvertDescriptions?.remove(listConvertDescriptions[position])
+        var stringBuilderDescription = StringBuilder()
+        listConvertDescriptions?.forEach {
+                el -> if(el == listConvertDescriptions[listConvertDescriptions.size-1]){
+            stringBuilderDescription.append(el)
+        } else {
+            stringBuilderDescription.append("$el,")
+        }
+        }
+        val editorDescription = sharedPreferences.edit()
+        editorDescription?.putString("descriptionsTasks", stringBuilderDescription.toString())
+        editorDescription?.apply()
+
+    }
+    override fun invisibleRecycler(){
+        binding.recycler.visibility = View.INVISIBLE
     }
     override fun invisibleText(){
         binding.textView.visibility = View.INVISIBLE
@@ -56,14 +78,18 @@ class MainView(activity: Activity): ActivityView(activity), MainContract.View {
         editor?.putString("listTask", binding.editTextTextPersonName.text.toString())
         editor?.putString("descriptionsTasks", "Sin descripcion")
         editor?.apply()
+        binding.editTextTextPersonName.text.clear()
+        binding.editTextTextPersonName.clearFocus()
     }
     override fun addNewTask(){
         var list : String = sharedPreferences.getString("listTask", "")!!
-        list += ","+binding.editTextTextPersonName.text.toString()
+        list = binding.editTextTextPersonName.text.toString()+","+list
         val editor = sharedPreferences.edit()
         editor?.putString("listTask", list)
         editor?.putString("descriptionsTasks", "Sin descripcion,")
         editor?.apply()
+        binding.editTextTextPersonName.text.clear()
+        binding.editTextTextPersonName.clearFocus()
     }
     override fun allDeleteTask(){
         sharedPreferences.edit().clear().apply()
@@ -77,7 +103,7 @@ class MainView(activity: Activity): ActivityView(activity), MainContract.View {
     override fun setOnClickAddButton(function: () -> Unit){
         binding.buttonAddTask.setOnClickListener { function() }
     }
-    override fun setOnClickDeleteButton(function: () -> Unit){
+    override fun setOnClickAllDeleteButton(function: () -> Unit){
         binding.allDelete.setOnClickListener { function() }
     }
 }
