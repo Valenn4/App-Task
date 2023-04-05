@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="40dp"
+    android:paddingBottom="@dimen/padding_bottom_constraint_layout"
     tools:context=".MainActivity">
 
     <EditText
@@ -13,8 +13,8 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:hint="@string/task_hint"
-        android:layout_margin="20dp"
-        android:paddingVertical="20dp"
+        android:layout_margin="@dimen/margin_input_task"
+        android:paddingVertical="@dimen/padding_vertical_input_task"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -23,9 +23,9 @@
         android:id="@+id/buttonAddTask"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
+        android:layout_marginHorizontal="@dimen/margin_horizontal_button_add_task"
         android:backgroundTint="#3F51B5"
-        android:padding="15dp"
+        android:padding="@dimen/padding_button_add_task"
         android:text="@string/button_text"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,11 +34,11 @@
 
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/text_null_task"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/non_task"
-        android:textSize="20sp"
+        android:textSize="@dimen/text_size_null_tasks"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,8 +48,8 @@
         android:id="@+id/recycler"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="@dimen/margin_top_recycler"
+        android:layout_marginHorizontal="@dimen/margin_horizontal_recycler"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonAddTask" />

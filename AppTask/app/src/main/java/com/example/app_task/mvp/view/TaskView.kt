@@ -59,7 +59,7 @@ class TaskView(private var activity: Activity): TaskContract.View {
         binding.inputDescription.setText(sharedPreferences.getString("descriptionsTasks", "")?.split(",")?.get(activity.intent.getStringExtra("task_id")!!.toInt()))
     }
     override fun descriptionIsNull(): Boolean{
-        return binding.textDescription.text.equals("Sin descripcion")
+        return binding.textDescription.text.equals("There is no description")
     }
     override fun descriptionIsBlank(): Boolean{
         return binding.inputDescription.text.isBlank()

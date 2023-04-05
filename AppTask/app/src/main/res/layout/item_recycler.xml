@@ -19,9 +19,9 @@
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:fontFamily="sans-serif-medium"
-            android:paddingVertical="20dp"
-            android:text="TextView"
-            android:textSize="20sp" />
+            android:paddingVertical="@dimen/padding_vertical_text_item_recycler"
+            tools:text="TextView"
+            android:textSize="@dimen/text_size_text_item_recycler" />
 
         <ImageButton
             android:id="@+id/buttonDeleteTask"
@@ -29,7 +29,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="0"
             android:layout_gravity="center"
-            android:layout_marginHorizontal="10dp"
+            android:layout_marginHorizontal="@dimen/margin_horizontal_delete_button_item_recycler"
             app:srcCompat="@android:drawable/ic_menu_delete" />
 
     </LinearLayout>

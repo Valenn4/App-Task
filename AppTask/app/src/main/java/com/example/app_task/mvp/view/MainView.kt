@@ -5,9 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.app_task.R
 import com.example.app_task.databinding.ActivityMainBinding
 import com.example.app_task.mvp.MyRecycler
 import com.example.app_task.mvp.contract.MainContract
@@ -20,6 +18,23 @@ class MainView(activity: Activity): ActivityView(activity), MainContract.View {
         activity.setContentView(binding.root)
     }
 
+    companion object {
+        private const val NULL_DESCRIPTION = "There is no description"
+        private const val NULL_DESCRIPTION2 = "There is no description,"
+        private const val TASKS_LIST = "listTask"
+        private const val DESCRIPTIONS_LIST = "descriptionsList"
+    }
+    private fun applyChangeToTaskList(listTask: String, listDescriptions: String){
+        val editor = sharedPreferences.edit()
+        editor?.putString("listTask", listTask)
+        editor?.putString("descriptionsTasks", listDescriptions)
+        editor?.apply()
+    }
+    private fun getListTasksOrDescriptions(list: String): MutableList<String>{
+        var list = sharedPreferences.getString(list, "")
+        return list?.split(",")?.toMutableList()!!
+    }
+
     override fun inization(function: () -> Unit){
         function()
     }
@@ -29,72 +44,58 @@ class MainView(activity: Activity): ActivityView(activity), MainContract.View {
     override fun loadRecycler(){
         var recycler = binding.recycler
         recycler.visibility = View.VISIBLE
-        var list: String = sharedPreferences.getString("listTask", "")!!
-        recycler.adapter = MyRecycler(list.split(","), activity)
+        recycler.adapter = MyRecycler(getListTasksOrDescriptions(TASKS_LIST), activity)
         recycler.layoutManager = LinearLayoutManager(activity)
     }
     override fun deleteTask(position: Int){
-        var listTask = sharedPreferences.getString("listTask", "")
-        var listConvert = listTask?.split(",")?.toMutableList()
-        listConvert?.remove(listConvert[position])
+        val listTasks = getListTasksOrDescriptions(TASKS_LIST)
+        listTasks?.remove(listTasks[position])
         var stringBuilder = StringBuilder()
-        listConvert?.forEach {
-                el -> if(el == listConvert[listConvert.size-1]){
+        listTasks?.forEach {
+                el -> if(el == listTasks[listTasks.size-1]){
                         stringBuilder.append(el)
                 } else {
                     stringBuilder.append("$el,")
                 }
         }
-        val editor = sharedPreferences.edit()
-        editor?.putString("listTask", stringBuilder.toString())
-        editor?.apply()
-
-        var listDescription = sharedPreferences.getString("descriptionsTasks", "")
-        var listConvertDescriptions = listDescription?.split(",")?.toMutableList()
-        listConvertDescriptions?.remove(listConvertDescriptions[position])
-        var stringBuilderDescription = StringBuilder()
-        listConvertDescriptions?.forEach {
-                el -> if(el == listConvertDescriptions[listConvertDescriptions.size-1]){
+        val listDescription = getListTasksOrDescriptions(DESCRIPTIONS_LIST)
+        listDescription.remove(listDescription[position])
+        val stringBuilderDescription = StringBuilder()
+        listDescription?.forEach {
+                el -> if(el == listDescription[listDescription.size-1]){
             stringBuilderDescription.append(el)
         } else {
             stringBuilderDescription.append("$el,")
         }
         }
-        val editorDescription = sharedPreferences.edit()
-        editorDescription?.putString("descriptionsTasks", stringBuilderDescription.toString())
-        editorDescription?.apply()
-
+        applyChangeToTaskList(stringBuilder.toString(), stringBuilderDescription.toString())
     }
     override fun invisibleRecycler(){
         binding.recycler.visibility = View.INVISIBLE
     }
     override fun invisibleText(){
-        binding.textView.visibility = View.INVISIBLE
+        binding.textNullTask.visibility = View.INVISIBLE
     }
     override fun visibleText(){
-        binding.textView.visibility = View.VISIBLE
+        binding.textNullTask.visibility = View.VISIBLE
     }
     override fun addFirstNewTask(){
-        val editor = sharedPreferences.edit()
-        editor?.putString("listTask", binding.editTextTextPersonName.text.toString())
-        editor?.putString("descriptionsTasks", "Sin descripcion")
-        editor?.apply()
+        applyChangeToTaskList(binding.editTextTextPersonName.text.toString(), NULL_DESCRIPTION)
+
         binding.editTextTextPersonName.text.clear()
-        binding.editTextTextPersonName.clearFocus()
         val view = activity?.currentFocus
+        view?.clearFocus()
         val imm : InputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
     override fun addNewTask(){
         var list : String = sharedPreferences.getString("listTask", "")!!
         list = binding.editTextTextPersonName.text.toString()+","+list
-        val editor = sharedPreferences.edit()
-        editor?.putString("listTask", list)
-        editor?.putString("descriptionsTasks", "Sin descripcion,")
-        editor?.apply()
+        applyChangeToTaskList(list, NULL_DESCRIPTION2)
+
         binding.editTextTextPersonName.text.clear()
-        binding.editTextTextPersonName.clearFocus()
         val view = activity?.currentFocus
+        view?.clearFocus()
         val imm : InputMethodManager = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="text_size_title">20sp</dimen>
+    <dimen name="padding_title">40dp</dimen>
+    <dimen name="padding_button_save">10dp</dimen>
+    <dimen name="padding_text_description">20dp</dimen>
+    <dimen name="text_size_description">20sp</dimen>
+    <dimen name="padding_input_description">20dp</dimen>
+    <dimen name="text_size_input_description">20sp</dimen>
+    <dimen name="padding_bottom_constraint_layout">40dp</dimen>
+    <dimen name="margin_input_task">20dp</dimen>
+    <dimen name="padding_vertical_input_task">20dp</dimen>
+    <dimen name="margin_horizontal_button_add_task">20dp</dimen>
+    <dimen name="padding_button_add_task">15dp</dimen>
+    <dimen name="text_size_null_tasks">20sp</dimen>
+    <dimen name="margin_top_recycler">20dp</dimen>
+    <dimen name="margin_horizontal_recycler">20dp</dimen>
+    <dimen name="padding_vertical_text_item_recycler">20dp</dimen>
+    <dimen name="text_size_text_item_recycler">20sp</dimen>
+    <dimen name="margin_horizontal_delete_button_item_recycler">10dp</dimen>
+</resources>
