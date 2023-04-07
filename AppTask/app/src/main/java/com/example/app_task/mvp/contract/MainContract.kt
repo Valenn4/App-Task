@@ -9,9 +9,10 @@ interface MainContract {
         fun invisibleRecycler()
         fun addFirstNewTask()
         fun addNewTask()
-        fun setOnClickDeleteButton(function: () -> Unit)
+        fun setOnClickAddButton(function: () -> Unit)
         fun inization(function: () -> Unit)
-        fun deleteTask(position: Int)
+        //fun deleteTask(position: Int)
+        fun alertDeleteTask(position: Int)
     }
 
     interface Presenter {

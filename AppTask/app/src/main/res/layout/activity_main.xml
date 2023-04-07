@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/padding_bottom_constraint_layout"
-    tools:context=".MainActivity">
+    tools:context=".mvp.activity.MainActivity">
 
     <EditText
         android:id="@+id/editTextTextPersonName"

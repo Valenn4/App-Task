@@ -35,7 +35,7 @@ internal class MainPresenterTest {
 
     @Test
     fun setOnClickAddButton() {
-        every { view.setOnClickDeleteButton { any() } } just Runs
+        every { view.setOnClickAddButton { any() } } just Runs
         presenter.setOnClickAddButton()
         verify { view.invisibleText() }
         verify { view.loadRecycler() }

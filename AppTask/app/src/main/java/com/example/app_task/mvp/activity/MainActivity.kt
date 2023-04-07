@@ -1,4 +1,4 @@
-package com.example.app_task
+package com.example.app_task.mvp.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

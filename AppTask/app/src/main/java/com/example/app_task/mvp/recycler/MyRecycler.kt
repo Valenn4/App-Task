@@ -1,4 +1,4 @@
-package com.example.app_task.mvp
+package com.example.app_task.mvp.recycler
 import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
@@ -6,9 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_task.R
-import com.example.app_task.TaskActivity
+import com.example.app_task.mvp.activity.TaskActivity
 import com.example.app_task.mvp.presenter.MainPresenter
 import com.example.app_task.mvp.view.MainView
 
@@ -36,6 +37,7 @@ class MyRecycler(private var list: List<String>, private var activity: Activity?
             val presenter = MainPresenter(MainView(activity!!))
             presenter.clickDeleteButton(position)
         }
+
         holder.itemView.setOnClickListener {
             val intent : Intent = Intent(activity, TaskActivity::class.java)
             intent.putExtra("task_name", item)
