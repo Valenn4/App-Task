@@ -17,13 +17,17 @@ class MainPresenter(private var view: MainContract.View): MainContract.Presenter
     }
 
     override fun setOnClickAddButton(){
-        if(view.conditionSharedPreferences()){
-            view.addFirstNewTask()
+        if(!view.getValueInputIsEmpty()) {
+            if (view.conditionSharedPreferences()) {
+                view.addFirstNewTask()
+            } else {
+                view.addNewTask()
+            }
+            view.loadRecycler()
+            view.invisibleText()
         } else {
-            view.addNewTask()
+            view.showMessageToast()
         }
-        view.loadRecycler()
-        view.invisibleText()
     }
     override fun clickDeleteButton(position: Int){
         view.alertDeleteTask(position)

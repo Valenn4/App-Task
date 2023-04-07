@@ -2,6 +2,8 @@ package com.example.app_task.mvp.contract
 
 interface MainContract {
     interface View {
+        fun getValueInputIsEmpty(): Boolean
+        fun showMessageToast()
         fun conditionSharedPreferences(): Boolean
         fun loadRecycler()
         fun invisibleText()

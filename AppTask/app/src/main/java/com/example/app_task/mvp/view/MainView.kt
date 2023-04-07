@@ -3,7 +3,6 @@ package com.example.app_task.mvp.view
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
-import android.content.DialogInterface
 import android.content.SharedPreferences
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -21,6 +20,7 @@ class MainView(activity: Activity): ActivityView(activity), MainContract.View {
         activity.setContentView(binding.root)
     }
     companion object {
+        private const val MESSAGE_TOAST = "Enter a text"
         private const val NULL_DESCRIPTION = "There is no description"
         private const val NULL_DESCRIPTION2 = "There is no description,"
         private const val TASKS_LIST = "listTask"
@@ -44,6 +44,12 @@ class MainView(activity: Activity): ActivityView(activity), MainContract.View {
     override fun inization(function: () -> Unit){
         function()
     }
+    override fun getValueInputIsEmpty(): Boolean{
+        return binding.editTextTextPersonName.text.isEmpty()
+    }
+    override fun showMessageToast(){
+        Toast.makeText(activity, MESSAGE_TOAST, Toast.LENGTH_SHORT).show()
+    }
     override fun conditionSharedPreferences(): Boolean{
         return sharedPreferences.getString(TASKS_LIST, "")!!.isBlank()
     }
@@ -58,8 +64,8 @@ class MainView(activity: Activity): ActivityView(activity), MainContract.View {
         val listTasks = getListTasksOrDescriptions(TASKS_LIST)
         listTasks?.remove(listTasks[position])
         var stringBuilder = StringBuilder()
-        listTasks?.forEach {
-                el -> if(el == listTasks[listTasks.size-1]){
+        listTasks?.forEach { el ->
+            if(el == listTasks[listTasks.size-1]){
             stringBuilder.append(el)
         } else {
             stringBuilder.append("$el,")
@@ -67,6 +73,7 @@ class MainView(activity: Activity): ActivityView(activity), MainContract.View {
         }
         val listDescription = getListTasksOrDescriptions(DESCRIPTIONS_LIST)
         listDescription.remove(listDescription[position])
+
         val stringBuilderDescription = StringBuilder()
         listDescription?.forEach { el ->
             if (el == listDescription[listDescription.size - 1]) {
@@ -116,9 +123,11 @@ class MainView(activity: Activity): ActivityView(activity), MainContract.View {
         imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
     override fun addNewTask(){
-        var list : String = sharedPreferences.getString("listTask", "")!!
-        list = binding.editTextTextPersonName.text.toString()+","+list
-        applyChangeToTaskList(list, NULL_DESCRIPTION2)
+        var listTask : String = sharedPreferences.getString(TASKS_LIST, "")!!
+        listTask = binding.editTextTextPersonName.text.toString()+","+listTask
+        var listDescription: String = sharedPreferences.getString(DESCRIPTIONS_LIST, "")!!
+        listDescription = NULL_DESCRIPTION2 + listDescription
+        applyChangeToTaskList(listTask, listDescription)
 
         binding.editTextTextPersonName.text.clear()
         binding.editTextTextPersonName.clearFocus()
