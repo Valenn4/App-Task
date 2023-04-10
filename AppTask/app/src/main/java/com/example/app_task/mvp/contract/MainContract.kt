@@ -1,25 +1,28 @@
 package com.example.app_task.mvp.contract
 
 interface MainContract {
+    interface Model {
+        fun getTasks(): List<String>
+        fun addTask(title: String)
+        fun deleteTask(item: String)
+    }
     interface View {
+        fun getValueInput(): String
         fun getValueInputIsEmpty(): Boolean
         fun showMessageToast()
-        fun conditionSharedPreferences(): Boolean
-        fun loadRecycler()
+        fun showToastRepeatTitle()
+        fun loadRecycler(list: List<String>)
         fun invisibleText()
         fun visibleText()
         fun invisibleRecycler()
-        fun addFirstNewTask()
-        fun addNewTask()
+        fun clearFocusInput()
         fun setOnClickAddButton(function: () -> Unit)
         fun inization(function: () -> Unit)
-        //fun deleteTask(position: Int)
-        fun alertDeleteTask(position: Int)
     }
 
     interface Presenter {
         fun inization()
         fun setOnClickAddButton()
-        fun clickDeleteButton(position: Int)
+        fun clickDeleteButton(item: String)
     }
 }

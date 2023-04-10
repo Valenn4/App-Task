@@ -2,6 +2,7 @@ package com.example.app_task.mvp.activity
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.app_task.mvp.model.MainModel
 import com.example.app_task.mvp.presenter.MainPresenter
 import com.example.app_task.mvp.view.MainView
 
@@ -9,6 +10,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        MainPresenter(MainView(this))
+        MainPresenter(MainView(this), MainModel(this))
     }
 }

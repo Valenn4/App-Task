@@ -16,6 +16,10 @@ class TaskView(private var activity: Activity): TaskContract.View {
         activity.setContentView(binding.root)
     }
 
+    companion object {
+        private const val NULL_DESCRIPTION = "There is no description"
+    }
+
     override fun inputFocus(){
         binding.inputDescription.setOnFocusChangeListener { view, b ->
             if(!b){
@@ -35,6 +39,9 @@ class TaskView(private var activity: Activity): TaskContract.View {
     override fun setFocusInput(){
         binding.inputDescription.requestFocus(0)
     }
+    override fun cleanInput(){
+        binding.inputDescription.text.clear()
+    }
     override fun openKeyboard(){
         val imm : InputMethodManager = activity.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.showSoftInput(binding.inputDescription, InputMethodManager.SHOW_IMPLICIT)
@@ -53,49 +60,23 @@ class TaskView(private var activity: Activity): TaskContract.View {
 
     override fun setTitle(){
         binding.titleTask.text = activity.intent.getStringExtra("task_name")
-        binding.textDescription.text = sharedPreferences.getString("descriptionsList", "")?.split(",")?.get(activity.intent.getStringExtra("task_id")!!.toInt())
-        binding.inputDescription.setText(sharedPreferences.getString("descriptionsList", "")?.split(",")?.get(activity.intent.getStringExtra("task_id")!!.toInt()))
+
+    }
+    override fun setDescription(description: String){
+        binding.textDescription.text = description
+        binding.inputDescription.setText(description)
+    }
+    override fun getValueInput(): String {
+        return binding.inputDescription.text.toString()
+    }
+    override fun getTitleIntent(): String{
+        return activity.intent.getStringExtra("task_name").toString()
     }
     override fun descriptionIsNull(): Boolean{
-        return binding.textDescription.text.equals("There is no description")
+        return binding.textDescription.text.equals(NULL_DESCRIPTION)
     }
     override fun descriptionIsBlank(): Boolean{
         return binding.inputDescription.text.isBlank()
-    }
-    override fun setValueDefaultDescription(){
-        binding.textDescription.text = "There is no description"
-        var listDescription = sharedPreferences.getString("descriptionsList", "")
-        var listConvert = listDescription?.split(",")?.toMutableList()
-        listConvert?.set(activity.intent.getStringExtra("task_id")!!.toInt(), "There is no description")
-
-        var stringBuilder = StringBuilder()
-        listConvert?.forEach { el -> stringBuilder.append("$el,") }
-        stringBuilder.substring(0,stringBuilder.length-1)
-
-        val editor = sharedPreferences.edit()
-        editor?.putString("descriptionsList", stringBuilder.toString())
-        editor?.apply()
-    }
-    override fun cleanInput(){
-        binding.inputDescription.text.clear()
-    }
-    override fun showDescription(){
-        var listDescription = sharedPreferences.getString("descriptionsList", "")
-        var listConvert = listDescription?.split(",")?.toMutableList()
-        binding.textDescription.setText(listConvert?.get(activity.intent.getStringExtra("task_id")!!.toInt()))
-    }
-    override fun saveDescriptionText(){
-        var listDescription = sharedPreferences.getString("descriptionsList", "")
-        var listConvert = listDescription?.split(",")?.toMutableList()
-        listConvert?.set(activity.intent.getStringExtra("task_id")!!.toInt(), binding.inputDescription.text.toString())
-
-        var stringBuilder = StringBuilder()
-        listConvert?.forEach { el -> stringBuilder.append("$el,") }
-        stringBuilder.substring(0,stringBuilder.length-1)
-
-        val editor = sharedPreferences.edit()
-        editor?.putString("descriptionsList", stringBuilder.toString())
-        editor?.apply()
     }
     override fun setOnClickSaveButton(function: () -> Unit){
         binding.buttonSaveDescription.setOnClickListener { function() }

@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.app_task.R
 import com.example.app_task.mvp.activity.TaskActivity
+import com.example.app_task.mvp.model.MainModel
 import com.example.app_task.mvp.presenter.MainPresenter
 import com.example.app_task.mvp.view.MainView
 
@@ -32,16 +33,14 @@ class MyRecycler(private var list: List<String>, private var activity: Activity?
     override fun onBindViewHolder(holder: MyHolder, position: Int) {
         var item = list[position]
         holder.textView.text = item
-        holder.buttonDelete.id = position
         holder.buttonDelete.setOnClickListener {
-            val presenter = MainPresenter(MainView(activity!!))
-            presenter.clickDeleteButton(position)
+            val presenter = MainPresenter(MainView(activity!!), MainModel(activity!!))
+            presenter.clickDeleteButton(item)
         }
 
         holder.itemView.setOnClickListener {
             val intent : Intent = Intent(activity, TaskActivity::class.java)
             intent.putExtra("task_name", item)
-            intent.putExtra("task_id", position.toString())
             activity?.startActivity(intent)
         }
     }

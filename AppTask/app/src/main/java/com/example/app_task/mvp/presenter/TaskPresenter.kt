@@ -2,10 +2,11 @@ package com.example.app_task.mvp.presenter
 
 import com.example.app_task.mvp.contract.TaskContract
 
-class TaskPresenter(private var view: TaskContract.View): TaskContract.Presenter {
+class TaskPresenter(private var view: TaskContract.View, private var model: TaskContract.Model): TaskContract.Presenter {
     init {
         view.inputFocus()
         view.setTitle()
+        view.setDescription(model.getDescription(view.getTitleIntent()))
         view.setOnClickTextDescription { setOnClickTextDescription() }
         view.setOnClickSaveButton { setOnClickSaveButton() }
     }
@@ -20,12 +21,17 @@ class TaskPresenter(private var view: TaskContract.View): TaskContract.Presenter
         }
     }
     override fun setOnClickSaveButton() {
+        model.saveDescription(view.getValueInput(), view.getTitleIntent())
+        view.setDescription(view.getValueInput())
         view.clearFocus()
-        view.saveDescriptionText()
-        view.showDescription()
         view.visibleTextAndInvisibleInput()
         if(view.descriptionIsBlank()){
-            view.setValueDefaultDescription()
+            model.saveDescription(NULL_DESCRIPTION, view.getTitleIntent())
+            view.setDescription(NULL_DESCRIPTION)
         }
+    }
+
+    companion object {
+        private const val NULL_DESCRIPTION = "There is no description"
     }
 }
